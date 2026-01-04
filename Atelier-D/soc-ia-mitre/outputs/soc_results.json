@@ -1,0 +1,1040 @@
+{
+  "timestamp": "2025-12-24T19:44:14.705900",
+  "statistics": {
+    "total_events": 5,
+    "anomalies_detected": 0,
+    "alerts_generated": 0,
+    "unique_techniques": 6,
+    "techniques_list": [
+      "T1110.001",
+      "T1110",
+      "T1021.004",
+      "T1071.001",
+      "T1190",
+      "T1046"
+    ],
+    "avg_processing_time": 10.9505542
+  },
+  "results": [
+    {
+      "event": {
+        "timestamp": "2024-01-15T10:23:45Z",
+        "src_ip": "203.0.113.10",
+        "dst_ip": "192.168.1.1",
+        "src_port": 54321,
+        "dst_port": 22,
+        "event_type": "ssh_attempt",
+        "message": "Failed password for invalid user admin from 203.0.113.10 port 54321 ssh2",
+        "id": "evt_0"
+      },
+      "pipeline_steps": {
+        "anomaly_detection": "completed",
+        "llm_analysis": "completed",
+        "trust_calibration": "completed",
+        "mitre_mapping": "completed",
+        "xai_explanation": "completed"
+      },
+      "anomaly_score": 0.5345308803179589,
+      "anomaly_analysis": {
+        "is_anomaly": false,
+        "anomaly_score": 0.5345308803179589,
+        "raw_score": -0.03458593661236209,
+        "prediction": "ANOMALY",
+        "confidence": 0.06906176063591785,
+        "features": {
+          "hour": 10,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "is_night": 0,
+          "src_is_private": 0,
+          "dst_is_private": 1,
+          "src_port": 54321,
+          "dst_port": 22,
+          "is_common_port": 1,
+          "same_ip_frequency": 0,
+          "same_type_frequency": 0,
+          "time_since_last_similar": 9999.0,
+          "suspicious_keyword_count": 2,
+          "message_length": 72,
+          "special_char_ratio": 0.041666666666666664,
+          "has_ip_pattern": 1,
+          "has_url_pattern": 0,
+          "http_code": 203,
+          "is_http_error": 0,
+          "event_type_encoded": 1,
+          "is_repeated_failure": 0,
+          "is_rapid_succession": 0
+        },
+        "top_suspicious_features": []
+      },
+      "llm_analysis": {
+        "is_malicious": true,
+        "confidence": 0.8999999999999999,
+        "explanation": "[MALVEILLANT]\nCette tentative de connexion SSH est suspecte car l'utilisateur 'admin' n'existe pas sur le syst\u00e8me. Il y a donc une tentative de brute force pour trouver un utilisateur valide et acc\u00e9der au syst\u00e8me.",
+        "raw": {
+          "id": "chatcmpl-ekpjl3y2q3vt7tc3fi2vwm",
+          "object": "chat.completion",
+          "created": 1766601799,
+          "model": "mistral-7b-instruct-v0.3",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": " [MALVEILLANT]\nCette tentative de connexion SSH est suspecte car l'utilisateur 'admin' n'existe pas sur le syst\u00e8me. Il y a donc une tentative de brute force pour trouver un utilisateur valide et acc\u00e9der au syst\u00e8me.",
+                "tool_calls": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 188,
+            "completion_tokens": 68,
+            "total_tokens": 256
+          },
+          "stats": {},
+          "system_fingerprint": "mistral-7b-instruct-v0.3"
+        }
+      },
+      "trust_score": 0.6477845145771467,
+      "trust_analysis": {
+        "raw_score": 0.7138123521271836,
+        "calibrated_score": 0.6477845145771467,
+        "should_alert": false,
+        "decision_confidence": 0.10443097084570652,
+        "sources": {
+          "llm_confidence": 0.8999999999999999,
+          "anomaly_score": 0.5345308803179589,
+          "heuristic_score": 0.7
+        },
+        "weights": {
+          "llm": 0.4,
+          "anomaly": 0.4,
+          "heuristic": 0.2
+        },
+        "temperature": 1.5,
+        "threshold": 0.7
+      },
+      "mitre_techniques": [
+        {
+          "technique_id": "T1110",
+          "technique_name": "Brute Force",
+          "tactic": "Credential Access",
+          "description": "Adversaries may use brute force techniques to gain access to accounts",
+          "confidence": 0.4,
+          "matched_patterns": [
+            "failed password",
+            "invalid user"
+          ],
+          "match_count": 2,
+          "total_patterns": 5
+        },
+        {
+          "technique_id": "T1110.001",
+          "technique_name": "Password Guessing",
+          "tactic": "Credential Access",
+          "description": "Adversaries may use password guessing to gain access",
+          "confidence": 0.3333333333333333,
+          "matched_patterns": [
+            "failed password"
+          ],
+          "match_count": 1,
+          "total_patterns": 3
+        },
+        {
+          "technique_id": "T1021.004",
+          "technique_name": "SSH",
+          "tactic": "Lateral Movement",
+          "description": "Adversaries may use SSH for lateral movement",
+          "confidence": 0.25,
+          "matched_patterns": [
+            "ssh"
+          ],
+          "match_count": 1,
+          "total_patterns": 4
+        }
+      ],
+      "explanation": {
+        "event_id": "evt_0",
+        "timestamp": "2024-01-15T10:23:45Z",
+        "summary": "Niveau MEDIUM: Brute Force (T1110) d\u00e9tect\u00e9 avec 3 technique(s) associ\u00e9e(s)",
+        "explanation": "Cette tentative de connexion SSH d\u00e9tect\u00e9e provenant de l'adresse IP 203.0.113.10 est inqui\u00e9tante car elle s'est produite pour un utilisateur 'admin' qui n'existe pas sur le syst\u00e8me. Cela sugg\u00e8re une tentative de brute force visant \u00e0 trouver des informations d'identification valides et acc\u00e9der au syst\u00e8me.\n\nL'analyse de l'IA a utilis\u00e9 des scores d'anomalie et de confiance calibr\u00e9s pour \u00e9valuer la menace. Le score d'anomalie est de 0.53, ce qui indique une anomalie mod\u00e9r\u00e9e dans les activit\u00e9s du r\u00e9seau. Le score de confiance calibr\u00e9 est de 0.65, ce qui sugg\u00e8re un niveau de malveillance \u00e9lev\u00e9. En cons\u00e9quence, le niveau de menace est \u00e9valu\u00e9 \u00e0 MEDIUM.\n\nLes techniques MITRE ATT&CK d\u00e9tect\u00e9es sont T1110 (Brute Force), T1110.001 (Password Guessing) et T1021.004 (SSH). Ces techniques indiquent que l'attaquant utilise des m\u00e9thodes de force brute pour trouver des informations d'",
+        "decision_factors": {
+          "primary_indicators": [],
+          "supporting_evidence": [
+            {
+              "type": "Anomalie mod\u00e9r\u00e9e",
+              "description": "Comportement inhabituel observ\u00e9 (score: 0.53)",
+              "weight": "medium"
+            }
+          ],
+          "confidence_level": "Medium"
+        },
+        "mitre_mapping": {
+          "techniques": [
+            {
+              "id": "T1110",
+              "name": "Brute Force",
+              "tactic": "Credential Access",
+              "confidence": 0.4
+            },
+            {
+              "id": "T1110.001",
+              "name": "Password Guessing",
+              "tactic": "Credential Access",
+              "confidence": 0.3333333333333333
+            },
+            {
+              "id": "T1021.004",
+              "name": "SSH",
+              "tactic": "Lateral Movement",
+              "confidence": 0.25
+            }
+          ],
+          "kill_chain": [
+            "Credential Access",
+            "Lateral Movement"
+          ]
+        },
+        "scores": {
+          "anomaly_score": 0.5345308803179589,
+          "trust_score": 0.6477845145771467,
+          "threat_level": "MEDIUM"
+        },
+        "recommendations": [
+          {
+            "priority": "MEDIUM",
+            "action": "Enregistrer et surveiller",
+            "description": "Logger l'\u00e9v\u00e9nement pour analyse de tendances",
+            "rationale": "Activit\u00e9 potentiellement suspecte"
+          },
+          {
+            "priority": "HIGH",
+            "action": "V\u00e9rification des comptes",
+            "description": "Auditer les tentatives d'acc\u00e8s et r\u00e9initialiser les mots de passe compromis",
+            "rationale": "Tentative d'acc\u00e8s aux identifiants d\u00e9tect\u00e9e"
+          }
+        ],
+        "attribution": {
+          "source_ip": "203.0.113.10",
+          "event_type": "ssh_attempt",
+          "indicators": {
+            "ip_addresses": [
+              "203.0.113.10"
+            ],
+            "patterns": [
+              "failed password",
+              "invalid user",
+              "failed password",
+              "ssh"
+            ],
+            "techniques": [
+              "T1110",
+              "T1110.001",
+              "T1021.004"
+            ]
+          }
+        }
+      },
+      "processing_time": 10.135817
+    },
+    {
+      "event": {
+        "timestamp": "2024-01-15T10:24:12Z",
+        "src_ip": "203.0.113.10",
+        "dst_ip": "192.168.1.1",
+        "src_port": 54322,
+        "dst_port": 22,
+        "event_type": "ssh_attempt",
+        "message": "Failed password for invalid user root from 203.0.113.10 port 54322 ssh2",
+        "id": "evt_1"
+      },
+      "pipeline_steps": {
+        "anomaly_detection": "completed",
+        "llm_analysis": "completed",
+        "trust_calibration": "completed",
+        "mitre_mapping": "completed",
+        "xai_explanation": "completed"
+      },
+      "anomaly_score": 0.486017767176044,
+      "anomaly_analysis": {
+        "is_anomaly": false,
+        "anomaly_score": 0.486017767176044,
+        "raw_score": 0.01398587928992645,
+        "prediction": "NORMAL",
+        "confidence": 0.027964465647911996,
+        "features": {
+          "hour": 10,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "is_night": 0,
+          "src_is_private": 0,
+          "dst_is_private": 1,
+          "src_port": 54322,
+          "dst_port": 22,
+          "is_common_port": 1,
+          "same_ip_frequency": 1,
+          "same_type_frequency": 1,
+          "time_since_last_similar": 27.0,
+          "suspicious_keyword_count": 2,
+          "message_length": 71,
+          "special_char_ratio": 0.04225352112676056,
+          "has_ip_pattern": 1,
+          "has_url_pattern": 0,
+          "http_code": 203,
+          "is_http_error": 0,
+          "event_type_encoded": 1,
+          "is_repeated_failure": 0,
+          "is_rapid_succession": 0
+        },
+        "top_suspicious_features": []
+      },
+      "llm_analysis": {
+        "is_malicious": true,
+        "confidence": 0.8999999999999999,
+        "explanation": "[MALVEILLANT] La tentative de connexion SSH avec un compte inexistant (root) et une adresse IP ext\u00e9rieure (203.0.113.10) est un indicateur d'une attaque brute-force visant \u00e0 trouver des comptes utilisateurs valides en essayant diff\u00e9rents mots de passe.",
+        "raw": {
+          "id": "chatcmpl-uixmie1320fght73n8x67f",
+          "object": "chat.completion",
+          "created": 1766601810,
+          "model": "mistral-7b-instruct-v0.3",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": " [MALVEILLANT] La tentative de connexion SSH avec un compte inexistant (root) et une adresse IP ext\u00e9rieure (203.0.113.10) est un indicateur d'une attaque brute-force visant \u00e0 trouver des comptes utilisateurs valides en essayant diff\u00e9rents mots de passe.",
+                "tool_calls": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 188,
+            "completion_tokens": 84,
+            "total_tokens": 272
+          },
+          "stats": {},
+          "system_fingerprint": "mistral-7b-instruct-v0.3"
+        }
+      },
+      "trust_score": 0.6334864374065796,
+      "trust_analysis": {
+        "raw_score": 0.6944071068704176,
+        "calibrated_score": 0.6334864374065796,
+        "should_alert": false,
+        "decision_confidence": 0.13302712518684068,
+        "sources": {
+          "llm_confidence": 0.8999999999999999,
+          "anomaly_score": 0.486017767176044,
+          "heuristic_score": 0.7
+        },
+        "weights": {
+          "llm": 0.4,
+          "anomaly": 0.4,
+          "heuristic": 0.2
+        },
+        "temperature": 1.5,
+        "threshold": 0.7
+      },
+      "mitre_techniques": [
+        {
+          "technique_id": "T1110",
+          "technique_name": "Brute Force",
+          "tactic": "Credential Access",
+          "description": "Adversaries may use brute force techniques to gain access to accounts",
+          "confidence": 0.4,
+          "matched_patterns": [
+            "failed password",
+            "invalid user"
+          ],
+          "match_count": 2,
+          "total_patterns": 5
+        },
+        {
+          "technique_id": "T1110.001",
+          "technique_name": "Password Guessing",
+          "tactic": "Credential Access",
+          "description": "Adversaries may use password guessing to gain access",
+          "confidence": 0.3333333333333333,
+          "matched_patterns": [
+            "failed password"
+          ],
+          "match_count": 1,
+          "total_patterns": 3
+        },
+        {
+          "technique_id": "T1021.004",
+          "technique_name": "SSH",
+          "tactic": "Lateral Movement",
+          "description": "Adversaries may use SSH for lateral movement",
+          "confidence": 0.25,
+          "matched_patterns": [
+            "ssh"
+          ],
+          "match_count": 1,
+          "total_patterns": 4
+        }
+      ],
+      "explanation": {
+        "event_id": "evt_1",
+        "timestamp": "2024-01-15T10:24:12Z",
+        "summary": "Niveau MEDIUM: Brute Force (T1110) d\u00e9tect\u00e9 avec 3 technique(s) associ\u00e9e(s)",
+        "explanation": "Cette tentative de connexion SSH est pr\u00e9occupante car elle s'effectue avec un compte inexistant (root) et une adresse IP ext\u00e9rieure, ce qui indique qu'une attaque brute-force est en cours. L'objectif de cette attaque est de trouver des comptes utilisateurs valides en essayant diff\u00e9rents mots de passe.\n\nLes diff\u00e9rents syst\u00e8mes ont contribu\u00e9 \u00e0 la d\u00e9cision en d\u00e9tectant une anomalie (Score d'anomalie: 0.49) et un niveau de menace \u00e9lev\u00e9 (Niveau de menace: MEDIUM). L'analyse de l'IA a \u00e9galement identifi\u00e9 des techniques MITRE ATT&CK associ\u00e9es \u00e0 cette attaque, notamment T1110 (Brute Force), T1110.001 (Password Guessing) et T1021.004 (SSH).\n\nLe niveau de risque est \u00e9lev\u00e9 car les attaques brute-force peuvent r\u00e9sulter en des intrusions r\u00e9ussies, ce qui peut entra\u00eener une perte de donn\u00e9es sensibles ou un acc\u00e8s non autoris\u00e9 \u00e0 des ressources. La confiance dans l'\u00e9valuation est faible (Score de confiance calibr\u00e9: 0.63) car les",
+        "decision_factors": {
+          "primary_indicators": [],
+          "supporting_evidence": [
+            {
+              "type": "Anomalie mod\u00e9r\u00e9e",
+              "description": "Comportement inhabituel observ\u00e9 (score: 0.49)",
+              "weight": "medium"
+            }
+          ],
+          "confidence_level": "Medium"
+        },
+        "mitre_mapping": {
+          "techniques": [
+            {
+              "id": "T1110",
+              "name": "Brute Force",
+              "tactic": "Credential Access",
+              "confidence": 0.4
+            },
+            {
+              "id": "T1110.001",
+              "name": "Password Guessing",
+              "tactic": "Credential Access",
+              "confidence": 0.3333333333333333
+            },
+            {
+              "id": "T1021.004",
+              "name": "SSH",
+              "tactic": "Lateral Movement",
+              "confidence": 0.25
+            }
+          ],
+          "kill_chain": [
+            "Credential Access",
+            "Lateral Movement"
+          ]
+        },
+        "scores": {
+          "anomaly_score": 0.486017767176044,
+          "trust_score": 0.6334864374065796,
+          "threat_level": "MEDIUM"
+        },
+        "recommendations": [
+          {
+            "priority": "MEDIUM",
+            "action": "Enregistrer et surveiller",
+            "description": "Logger l'\u00e9v\u00e9nement pour analyse de tendances",
+            "rationale": "Activit\u00e9 potentiellement suspecte"
+          },
+          {
+            "priority": "HIGH",
+            "action": "V\u00e9rification des comptes",
+            "description": "Auditer les tentatives d'acc\u00e8s et r\u00e9initialiser les mots de passe compromis",
+            "rationale": "Tentative d'acc\u00e8s aux identifiants d\u00e9tect\u00e9e"
+          }
+        ],
+        "attribution": {
+          "source_ip": "203.0.113.10",
+          "event_type": "ssh_attempt",
+          "indicators": {
+            "ip_addresses": [
+              "203.0.113.10"
+            ],
+            "patterns": [
+              "failed password",
+              "invalid user",
+              "failed password",
+              "ssh"
+            ],
+            "techniques": [
+              "T1110",
+              "T1110.001",
+              "T1021.004"
+            ]
+          }
+        }
+      },
+      "processing_time": 10.419784
+    },
+    {
+      "event": {
+        "timestamp": "2024-01-15T10:25:33Z",
+        "src_ip": "198.51.100.50",
+        "dst_ip": "192.168.1.1",
+        "src_port": 41234,
+        "dst_port": 80,
+        "event_type": "port_scan",
+        "message": "SYN scan detected from 198.51.100.50 targeting multiple ports",
+        "id": "evt_2"
+      },
+      "pipeline_steps": {
+        "anomaly_detection": "completed",
+        "llm_analysis": "completed",
+        "trust_calibration": "completed",
+        "mitre_mapping": "completed",
+        "xai_explanation": "completed"
+      },
+      "anomaly_score": 0.52431642110438,
+      "anomaly_analysis": {
+        "is_anomaly": false,
+        "anomaly_score": 0.52431642110438,
+        "raw_score": -0.02433561904360293,
+        "prediction": "ANOMALY",
+        "confidence": 0.048632842208760074,
+        "features": {
+          "hour": 10,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "is_night": 0,
+          "src_is_private": 0,
+          "dst_is_private": 1,
+          "src_port": 41234,
+          "dst_port": 80,
+          "is_common_port": 1,
+          "same_ip_frequency": 0,
+          "same_type_frequency": 0,
+          "time_since_last_similar": 9999.0,
+          "suspicious_keyword_count": 1,
+          "message_length": 61,
+          "special_char_ratio": 0.04918032786885246,
+          "has_ip_pattern": 1,
+          "has_url_pattern": 0,
+          "http_code": 198,
+          "is_http_error": 0,
+          "event_type_encoded": 3,
+          "is_repeated_failure": 0,
+          "is_rapid_succession": 0
+        },
+        "top_suspicious_features": []
+      },
+      "llm_analysis": {
+        "is_malicious": true,
+        "confidence": 0.8999999999999999,
+        "explanation": "[MALVEILLANT] Un SYN scan est un test de vuln\u00e9rabilit\u00e9 r\u00e9seau qui peut \u00eatre effectu\u00e9 par des hackers pour identifier les services en cours d'ex\u00e9cution sur un h\u00f4te cible. Bien que ce type d'activit\u00e9 ne soit pas n\u00e9cessairement malveillant, il peut indiquer une tentative de reconnaissance pr\u00e9alable \u00e0 une attaque plus importante. Il est donc recommand\u00e9 de prendre des mesures pour bloquer l'IP 198.51.100.50 ou d'enqu\u00eater sur son identit\u00e9 et son motif.",
+        "raw": {
+          "id": "chatcmpl-icem0do7njmcv9jor07rs",
+          "object": "chat.completion",
+          "created": 1766601820,
+          "model": "mistral-7b-instruct-v0.3",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": " [MALVEILLANT] Un SYN scan est un test de vuln\u00e9rabilit\u00e9 r\u00e9seau qui peut \u00eatre effectu\u00e9 par des hackers pour identifier les services en cours d'ex\u00e9cution sur un h\u00f4te cible. Bien que ce type d'activit\u00e9 ne soit pas n\u00e9cessairement malveillant, il peut indiquer une tentative de reconnaissance pr\u00e9alable \u00e0 une attaque plus importante. Il est donc recommand\u00e9 de prendre des mesures pour bloquer l'IP 198.51.100.50 ou d'enqu\u00eater sur son identit\u00e9 et son motif.",
+                "tool_calls": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 179,
+            "completion_tokens": 141,
+            "total_tokens": 320
+          },
+          "stats": {},
+          "system_fingerprint": "mistral-7b-instruct-v0.3"
+        }
+      },
+      "trust_score": 0.6300801944383966,
+      "trust_analysis": {
+        "raw_score": 0.6897265684417521,
+        "calibrated_score": 0.6300801944383966,
+        "should_alert": false,
+        "decision_confidence": 0.13983961112320675,
+        "sources": {
+          "llm_confidence": 0.8999999999999999,
+          "anomaly_score": 0.52431642110438,
+          "heuristic_score": 0.6
+        },
+        "weights": {
+          "llm": 0.4,
+          "anomaly": 0.4,
+          "heuristic": 0.2
+        },
+        "temperature": 1.5,
+        "threshold": 0.7
+      },
+      "mitre_techniques": [
+        {
+          "technique_id": "T1046",
+          "technique_name": "Network Service Scanning",
+          "tactic": "Discovery",
+          "description": "Adversaries may attempt to get a listing of services running on remote hosts",
+          "confidence": 0.2,
+          "matched_patterns": [
+            "port.?scan"
+          ],
+          "match_count": 1,
+          "total_patterns": 5
+        },
+        {
+          "technique_id": "T1071.001",
+          "technique_name": "Web Protocols",
+          "tactic": "Command and Control",
+          "description": "Adversaries may use web protocols for C2",
+          "confidence": 0.2,
+          "matched_patterns": [
+            "GET"
+          ],
+          "match_count": 1,
+          "total_patterns": 5
+        }
+      ],
+      "explanation": {
+        "event_id": "evt_2",
+        "timestamp": "2024-01-15T10:25:33Z",
+        "summary": "Niveau MEDIUM: Network Service Scanning (T1046) d\u00e9tect\u00e9 avec 2 technique(s) associ\u00e9e(s)",
+        "explanation": "Le syst\u00e8me a d\u00e9tect\u00e9 une activit\u00e9 anormale appel\u00e9e un SYN scan provenant de l'adresse IP 198.51.100.50, qui a cibl\u00e9 plusieurs ports. Cette activit\u00e9 est pr\u00e9occupante car elle peut \u00eatre utilis\u00e9e par des pirates informatiques pour identifier les services en cours d'ex\u00e9cution sur un h\u00f4te cible et pr\u00e9parer une attaque plus importante.\n\nLes syst\u00e8mes d'analyse de donn\u00e9es ont contribu\u00e9 \u00e0 cette d\u00e9cision gr\u00e2ce \u00e0 des scores d'anomalie et de confiance \u00e9lev\u00e9s, ainsi qu'\u00e0 la d\u00e9tection de techniques MITRE ATT&CK telles que T1046 (Network Service Scanning) et T1071.001 (Web Protocols).\n\nLe niveau de risque est m\u00e9dium car l'activit\u00e9 anormale peut indiquer une tentative de reconnaissance pr\u00e9alable \u00e0 une attaque plus importante. La confiance dans cette \u00e9valuation est \u00e9lev\u00e9e en raison des scores d'anomalie et de confiance \u00e9lev\u00e9s, ainsi que de la d\u00e9tection de techniques MITRE ATT&CK associ\u00e9es \u00e0 des activit\u00e9s malveillantes.\n\nIl est donc recommand\u00e9 d'effectuer des mesures pour bloquer l'IP 1",
+        "decision_factors": {
+          "primary_indicators": [],
+          "supporting_evidence": [
+            {
+              "type": "Anomalie mod\u00e9r\u00e9e",
+              "description": "Comportement inhabituel observ\u00e9 (score: 0.52)",
+              "weight": "medium"
+            }
+          ],
+          "confidence_level": "Medium"
+        },
+        "mitre_mapping": {
+          "techniques": [
+            {
+              "id": "T1046",
+              "name": "Network Service Scanning",
+              "tactic": "Discovery",
+              "confidence": 0.2
+            },
+            {
+              "id": "T1071.001",
+              "name": "Web Protocols",
+              "tactic": "Command and Control",
+              "confidence": 0.2
+            }
+          ],
+          "kill_chain": [
+            "Discovery",
+            "Command and Control"
+          ]
+        },
+        "scores": {
+          "anomaly_score": 0.52431642110438,
+          "trust_score": 0.6300801944383966,
+          "threat_level": "MEDIUM"
+        },
+        "recommendations": [
+          {
+            "priority": "MEDIUM",
+            "action": "Enregistrer et surveiller",
+            "description": "Logger l'\u00e9v\u00e9nement pour analyse de tendances",
+            "rationale": "Activit\u00e9 potentiellement suspecte"
+          }
+        ],
+        "attribution": {
+          "source_ip": "198.51.100.50",
+          "event_type": "port_scan",
+          "indicators": {
+            "ip_addresses": [
+              "198.51.100.50"
+            ],
+            "patterns": [
+              "port.?scan",
+              "GET"
+            ],
+            "techniques": [
+              "T1046",
+              "T1071.001"
+            ]
+          }
+        }
+      },
+      "processing_time": 12.093816
+    },
+    {
+      "event": {
+        "timestamp": "2024-01-15T10:26:45Z",
+        "src_ip": "198.51.100.50",
+        "dst_ip": "192.168.1.1",
+        "src_port": 41235,
+        "dst_port": 80,
+        "event_type": "http_request",
+        "message": "GET /admin/config.php HTTP/1.1 404 Not Found - fuzzing detected",
+        "id": "evt_3"
+      },
+      "pipeline_steps": {
+        "anomaly_detection": "completed",
+        "llm_analysis": "completed",
+        "trust_calibration": "completed",
+        "mitre_mapping": "completed",
+        "xai_explanation": "completed"
+      },
+      "anomaly_score": 0.5496576546237695,
+      "anomaly_analysis": {
+        "is_anomaly": false,
+        "anomaly_score": 0.5496576546237695,
+        "raw_score": -0.049821894314426296,
+        "prediction": "ANOMALY",
+        "confidence": 0.09931530924753895,
+        "features": {
+          "hour": 10,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "is_night": 0,
+          "src_is_private": 0,
+          "dst_is_private": 1,
+          "src_port": 41235,
+          "dst_port": 80,
+          "is_common_port": 1,
+          "same_ip_frequency": 1,
+          "same_type_frequency": 0,
+          "time_since_last_similar": 9999.0,
+          "suspicious_keyword_count": 0,
+          "message_length": 63,
+          "special_char_ratio": 0.09523809523809523,
+          "has_ip_pattern": 0,
+          "has_url_pattern": 0,
+          "http_code": 404,
+          "is_http_error": 1,
+          "event_type_encoded": 2,
+          "is_repeated_failure": 0,
+          "is_rapid_succession": 0
+        },
+        "top_suspicious_features": []
+      },
+      "llm_analysis": {
+        "is_malicious": true,
+        "confidence": 0.7499999999999999,
+        "explanation": "[MALVEILLANT]\nLa requ\u00eate HTTP est dirig\u00e9e vers l'URL `/admin/config.php`, qui est probablement une page d'administration web. Le fait qu'elle renvoie un code d'\u00e9tat 404 (Not Found) indique que la page demand\u00e9e n'existe pas sur ce serveur, mais cela peut \u00eatre intentionnel si le serveur a \u00e9t\u00e9 con\u00e7u pour bloquer les requ\u00eates \u00e0 cette adresse. Le terme \"fuzzing\" d\u00e9tect\u00e9 dans le message indique qu'il s'agit d'une technique de test de vuln\u00e9rabilit\u00e9, souvent utilis\u00e9e par des hackers pour trouver des failles dans un syst\u00e8me.",
+        "raw": {
+          "id": "chatcmpl-haapcii72po83a1u2sya1d",
+          "object": "chat.completion",
+          "created": 1766601832,
+          "model": "mistral-7b-instruct-v0.3",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": " [MALVEILLANT]\nLa requ\u00eate HTTP est dirig\u00e9e vers l'URL `/admin/config.php`, qui est probablement une page d'administration web. Le fait qu'elle renvoie un code d'\u00e9tat 404 (Not Found) indique que la page demand\u00e9e n'existe pas sur ce serveur, mais cela peut \u00eatre intentionnel si le serveur a \u00e9t\u00e9 con\u00e7u pour bloquer les requ\u00eates \u00e0 cette adresse. Le terme \"fuzzing\" d\u00e9tect\u00e9 dans le message indique qu'il s'agit d'une technique de test de vuln\u00e9rabilit\u00e9, souvent utilis\u00e9e par des hackers pour trouver des failles dans un syst\u00e8me.",
+                "tool_calls": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 179,
+            "completion_tokens": 162,
+            "total_tokens": 341
+          },
+          "stats": {},
+          "system_fingerprint": "mistral-7b-instruct-v0.3"
+        }
+      },
+      "trust_score": 0.5807804472636031,
+      "trust_analysis": {
+        "raw_score": 0.6198630618495078,
+        "calibrated_score": 0.5807804472636031,
+        "should_alert": false,
+        "decision_confidence": 0.23843910547279368,
+        "sources": {
+          "llm_confidence": 0.7499999999999999,
+          "anomaly_score": 0.5496576546237695,
+          "heuristic_score": 0.5
+        },
+        "weights": {
+          "llm": 0.4,
+          "anomaly": 0.4,
+          "heuristic": 0.2
+        },
+        "temperature": 1.5,
+        "threshold": 0.7
+      },
+      "mitre_techniques": [
+        {
+          "technique_id": "T1071.001",
+          "technique_name": "Web Protocols",
+          "tactic": "Command and Control",
+          "description": "Adversaries may use web protocols for C2",
+          "confidence": 0.4,
+          "matched_patterns": [
+            "http",
+            "GET"
+          ],
+          "match_count": 2,
+          "total_patterns": 5
+        },
+        {
+          "technique_id": "T1190",
+          "technique_name": "Exploit Public-Facing Application",
+          "tactic": "Initial Access",
+          "description": "Adversaries may attempt to exploit vulnerabilities in public-facing applications",
+          "confidence": 0.125,
+          "matched_patterns": [
+            "fuzzing"
+          ],
+          "match_count": 1,
+          "total_patterns": 8
+        }
+      ],
+      "explanation": {
+        "event_id": "evt_3",
+        "timestamp": "2024-01-15T10:26:45Z",
+        "summary": "Niveau MEDIUM: Web Protocols (T1071.001) d\u00e9tect\u00e9 avec 2 technique(s) associ\u00e9e(s)",
+        "explanation": "Ce qui a \u00e9t\u00e9 d\u00e9tect\u00e9 est une requ\u00eate HTTP suspecte vers l'URL `/admin/config.php`, probablement une page d'administration web. Cela est pr\u00e9occupant car il s'agit d'une pratique courante des hackers pour tenter de trouver des failles dans un syst\u00e8me.\n\nLes diff\u00e9rents syst\u00e8mes ont contribu\u00e9 \u00e0 la d\u00e9cision gr\u00e2ce au score d'anomalie \u00e9lev\u00e9 (0.55) et au niveau de confiance calibr\u00e9 (0.58). L'IA a \u00e9galement d\u00e9tect\u00e9 des techniques de test de vuln\u00e9rabilit\u00e9 (fuzzing) dans le message de la requ\u00eate HTTP.\n\nLe niveau de risque est MEDIUM, car m\u00eame si il n'y a pas eu d'intrusion r\u00e9ussie \u00e0 ce jour, il y a un risque \u00e9lev\u00e9 que des hackers tentent de trouver des failles sur votre serveur. La confiance dans l'\u00e9valuation est relativement \u00e9lev\u00e9e, car les diff\u00e9rents scores et la d\u00e9tection de techniques de test de vuln\u00e9rabilit\u00e9 indiquent qu'il s'agit d'une requ\u00eate suspecte.\n\nL'action recommand\u00e9e est de bloquer l'IP source (198.51.100.5",
+        "decision_factors": {
+          "primary_indicators": [],
+          "supporting_evidence": [
+            {
+              "type": "Anomalie mod\u00e9r\u00e9e",
+              "description": "Comportement inhabituel observ\u00e9 (score: 0.55)",
+              "weight": "medium"
+            }
+          ],
+          "confidence_level": "Medium"
+        },
+        "mitre_mapping": {
+          "techniques": [
+            {
+              "id": "T1071.001",
+              "name": "Web Protocols",
+              "tactic": "Command and Control",
+              "confidence": 0.4
+            },
+            {
+              "id": "T1190",
+              "name": "Exploit Public-Facing Application",
+              "tactic": "Initial Access",
+              "confidence": 0.125
+            }
+          ],
+          "kill_chain": [
+            "Initial Access",
+            "Command and Control"
+          ]
+        },
+        "scores": {
+          "anomaly_score": 0.5496576546237695,
+          "trust_score": 0.5807804472636031,
+          "threat_level": "MEDIUM"
+        },
+        "recommendations": [
+          {
+            "priority": "MEDIUM",
+            "action": "Enregistrer et surveiller",
+            "description": "Logger l'\u00e9v\u00e9nement pour analyse de tendances",
+            "rationale": "Activit\u00e9 potentiellement suspecte"
+          },
+          {
+            "priority": "HIGH",
+            "action": "Inspection des applications",
+            "description": "V\u00e9rifier l'int\u00e9grit\u00e9 des applications expos\u00e9es",
+            "rationale": "Tentative d'exploitation d'application d\u00e9tect\u00e9e"
+          }
+        ],
+        "attribution": {
+          "source_ip": "198.51.100.50",
+          "event_type": "http_request",
+          "indicators": {
+            "ip_addresses": [
+              "198.51.100.50"
+            ],
+            "patterns": [
+              "http",
+              "GET",
+              "fuzzing"
+            ],
+            "techniques": [
+              "T1071.001",
+              "T1190"
+            ]
+          }
+        }
+      },
+      "processing_time": 12.438402
+    },
+    {
+      "event": {
+        "timestamp": "2024-01-15T10:27:01Z",
+        "src_ip": "192.168.1.50",
+        "dst_ip": "192.168.1.1",
+        "src_port": 51234,
+        "dst_port": 80,
+        "event_type": "http_request",
+        "message": "GET /index.html HTTP/1.1 200 OK",
+        "id": "evt_4"
+      },
+      "pipeline_steps": {
+        "anomaly_detection": "completed",
+        "llm_analysis": "completed",
+        "trust_calibration": "completed",
+        "mitre_mapping": "completed",
+        "xai_explanation": "completed"
+      },
+      "anomaly_score": 0.49168420948159103,
+      "anomaly_analysis": {
+        "is_anomaly": false,
+        "anomaly_score": 0.49168420948159103,
+        "raw_score": 0.008316557387872292,
+        "prediction": "NORMAL",
+        "confidence": 0.016631581036817944,
+        "features": {
+          "hour": 10,
+          "day_of_week": 0,
+          "is_weekend": 0,
+          "is_night": 0,
+          "src_is_private": 1,
+          "dst_is_private": 1,
+          "src_port": 51234,
+          "dst_port": 80,
+          "is_common_port": 1,
+          "same_ip_frequency": 0,
+          "same_type_frequency": 1,
+          "time_since_last_similar": 9999.0,
+          "suspicious_keyword_count": 0,
+          "message_length": 31,
+          "special_char_ratio": 0.12903225806451613,
+          "has_ip_pattern": 0,
+          "has_url_pattern": 0,
+          "http_code": 200,
+          "is_http_error": 0,
+          "event_type_encoded": 2,
+          "is_repeated_failure": 0,
+          "is_rapid_succession": 0
+        },
+        "top_suspicious_features": []
+      },
+      "llm_analysis": {
+        "is_malicious": true,
+        "confidence": 0.885,
+        "explanation": "NORMAL\n\nCet \u00e9v\u00e9nement est normal. Il s'agit d'une demande HTTP standard pour la page index.html, qui a \u00e9t\u00e9 r\u00e9ussie (code de statut 200). Cela ne semble pas \u00eatre un comportement malveillant.",
+        "raw": {
+          "id": "chatcmpl-o1dt3uktye7om2uqwcj0k",
+          "object": "chat.completion",
+          "created": 1766601845,
+          "model": "mistral-7b-instruct-v0.3",
+          "choices": [
+            {
+              "index": 0,
+              "message": {
+                "role": "assistant",
+                "content": " NORMAL\n\nCet \u00e9v\u00e9nement est normal. Il s'agit d'une demande HTTP standard pour la page index.html, qui a \u00e9t\u00e9 r\u00e9ussie (code de statut 200). Cela ne semble pas \u00eatre un comportement malveillant.",
+                "tool_calls": []
+              },
+              "logprobs": null,
+              "finish_reason": "stop"
+            }
+          ],
+          "usage": {
+            "prompt_tokens": 170,
+            "completion_tokens": 63,
+            "total_tokens": 233
+          },
+          "stats": {},
+          "system_fingerprint": "mistral-7b-instruct-v0.3"
+        }
+      },
+      "trust_score": 0.5882507299552531,
+      "trust_analysis": {
+        "raw_score": 0.6306736837926366,
+        "calibrated_score": 0.5882507299552531,
+        "should_alert": false,
+        "decision_confidence": 0.22349854008949377,
+        "sources": {
+          "llm_confidence": 0.885,
+          "anomaly_score": 0.49168420948159103,
+          "heuristic_score": 0.4
+        },
+        "weights": {
+          "llm": 0.4,
+          "anomaly": 0.4,
+          "heuristic": 0.2
+        },
+        "temperature": 1.5,
+        "threshold": 0.7
+      },
+      "mitre_techniques": [
+        {
+          "technique_id": "T1071.001",
+          "technique_name": "Web Protocols",
+          "tactic": "Command and Control",
+          "description": "Adversaries may use web protocols for C2",
+          "confidence": 0.4,
+          "matched_patterns": [
+            "http",
+            "GET"
+          ],
+          "match_count": 2,
+          "total_patterns": 5
+        }
+      ],
+      "explanation": {
+        "event_id": "evt_4",
+        "timestamp": "2024-01-15T10:27:01Z",
+        "summary": "Niveau MEDIUM: Web Protocols (T1071.001) d\u00e9tect\u00e9 avec 1 technique(s) associ\u00e9e(s)",
+        "explanation": "Ce que nous avons d\u00e9tect\u00e9 est une demande HTTP standard pour la page index.html, qui a \u00e9t\u00e9 r\u00e9ussie (code de statut 200). Cela ne semble pas \u00eatre un comportement malveillant.\n\nL'analyse de l'\u00e9v\u00e9nement a \u00e9t\u00e9 effectu\u00e9e en utilisant des outils d'anomalie machine learning et la cartographie MITRE ATT&CK. Nous avons d\u00e9tect\u00e9 une technique Web Protocols (T1071.001) qui peut \u00eatre associ\u00e9e \u00e0 un contr\u00f4le de commande, mais avec une confiance relativement faible de 40%.\n\nLe score d'anomalie est de 0.49 sur une \u00e9chelle allant de 0 (normal) \u00e0 1 (anomalie), et le score de confiance calibr\u00e9 est de 0.59 sur une \u00e9chelle allant de 0 (b\u00e9nin) \u00e0 1 (malveillant). Ces scores indiquent que l'\u00e9v\u00e9nement est relativement normal, mais il y a encore quelques \u00e9l\u00e9ments qui peuvent requ\u00e9rir une surveillance plus \u00e9troite.\n\nNous recommandons de continuer \u00e0 surveiller cet \u00e9v\u00e9nement pour v\u00e9rifier qu'il n'y a pas d'activit\u00e9s suspectes en cours. Si",
+        "decision_factors": {
+          "primary_indicators": [],
+          "supporting_evidence": [
+            {
+              "type": "Anomalie mod\u00e9r\u00e9e",
+              "description": "Comportement inhabituel observ\u00e9 (score: 0.49)",
+              "weight": "medium"
+            }
+          ],
+          "confidence_level": "Medium"
+        },
+        "mitre_mapping": {
+          "techniques": [
+            {
+              "id": "T1071.001",
+              "name": "Web Protocols",
+              "tactic": "Command and Control",
+              "confidence": 0.4
+            }
+          ],
+          "kill_chain": [
+            "Command and Control"
+          ]
+        },
+        "scores": {
+          "anomaly_score": 0.49168420948159103,
+          "trust_score": 0.5882507299552531,
+          "threat_level": "MEDIUM"
+        },
+        "recommendations": [
+          {
+            "priority": "MEDIUM",
+            "action": "Enregistrer et surveiller",
+            "description": "Logger l'\u00e9v\u00e9nement pour analyse de tendances",
+            "rationale": "Activit\u00e9 potentiellement suspecte"
+          }
+        ],
+        "attribution": {
+          "source_ip": "192.168.1.50",
+          "event_type": "http_request",
+          "indicators": {
+            "ip_addresses": [
+              "192.168.1.50"
+            ],
+            "patterns": [
+              "http",
+              "GET"
+            ],
+            "techniques": [
+              "T1071.001"
+            ]
+          }
+        }
+      },
+      "processing_time": 9.664952
+    }
+  ]
+}

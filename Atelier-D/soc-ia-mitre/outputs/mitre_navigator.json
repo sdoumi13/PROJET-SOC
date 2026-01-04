@@ -1,0 +1,84 @@
+{
+  "name": "SOC IA - D\u00e9tections",
+  "versions": {
+    "attack": "14",
+    "navigator": "4.9.1",
+    "layer": "4.5"
+  },
+  "domain": "enterprise-attack",
+  "description": "Techniques MITRE ATT&CK d\u00e9tect\u00e9es par le SOC IA",
+  "filters": {
+    "platforms": [
+      "Linux",
+      "Windows",
+      "macOS",
+      "Network"
+    ]
+  },
+  "sorting": 0,
+  "layout": {
+    "layout": "side",
+    "aggregateFunction": "average",
+    "showID": true,
+    "showName": true
+  },
+  "hideDisabled": false,
+  "techniques": [
+    {
+      "techniqueID": "T1071.001",
+      "score": 30,
+      "color": "",
+      "comment": "D\u00e9tect\u00e9 3 fois avec confiance moyenne de 33.33%",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1110",
+      "score": 20,
+      "color": "",
+      "comment": "D\u00e9tect\u00e9 2 fois avec confiance moyenne de 40.00%",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1110.001",
+      "score": 20,
+      "color": "",
+      "comment": "D\u00e9tect\u00e9 2 fois avec confiance moyenne de 33.33%",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1021.004",
+      "score": 20,
+      "color": "",
+      "comment": "D\u00e9tect\u00e9 2 fois avec confiance moyenne de 25.00%",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1046",
+      "score": 10,
+      "color": "",
+      "comment": "D\u00e9tect\u00e9 1 fois avec confiance moyenne de 20.00%",
+      "enabled": true
+    },
+    {
+      "techniqueID": "T1190",
+      "score": 10,
+      "color": "",
+      "comment": "D\u00e9tect\u00e9 1 fois avec confiance moyenne de 12.50%",
+      "enabled": true
+    }
+  ],
+  "gradient": {
+    "colors": [
+      "#ffffff",
+      "#ffff00",
+      "#ff0000"
+    ],
+    "minValue": 0,
+    "maxValue": 100
+  },
+  "legendItems": [],
+  "metadata": [],
+  "showTacticRowBackground": false,
+  "tacticRowBackground": "#dddddd",
+  "selectTechniquesAcrossTactics": true
+}

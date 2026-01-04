@@ -1,0 +1,13 @@
+technique,name,tactique,description,patterns
+T1110,Brute Force,Credential Access,Adversaries may use brute force techniques to gain access to accounts,failed password|authentication failure|invalid user|brute.?force|hydra
+T1110.001,Password Guessing,Credential Access,Adversaries may use password guessing to gain access,failed password|invalid password|password guess
+T1110.003,Password Spraying,Credential Access,Adversaries may use password spraying attacks,multiple failed logins|password spray|many authentication attempts
+T1046,Network Service Scanning,Discovery,Adversaries may attempt to get a listing of services running on remote hosts,nmap|masscan|port.?scan|service.?scan|network scan
+T1190,Exploit Public-Facing Application,Initial Access,Adversaries may attempt to exploit vulnerabilities in public-facing applications,exploit|fuzzing|dirb|gobuster|nikto|sqlmap|dirbuster|wfuzz
+T1595,Active Scanning,Reconnaissance,Adversaries may execute active reconnaissance scans,scanning|reconnaissance|probe|fingerprint
+T1595.001,Scanning IP Blocks,Reconnaissance,Adversaries may scan victim IP blocks,ip.?scan|subnet.?scan|network.?sweep
+T1021.004,SSH,Lateral Movement,Adversaries may use SSH for lateral movement,ssh|sshd|port 22|ssh connection
+T1071.001,Web Protocols,Command and Control,Adversaries may use web protocols for C2,http|https|web request|GET|POST
+T1498,Network Denial of Service,Impact,Adversaries may perform DoS attacks,flood|dos|ddos|syn flood|denial of service
+T1078,Valid Accounts,Defense Evasion,Adversaries may obtain and abuse valid accounts,successful login|authenticated|valid credentials
+T1133,External Remote Services,Persistence,Adversaries may leverage external remote services,remote access|vpn|remote desktop|rdp

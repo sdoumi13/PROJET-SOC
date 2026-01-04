@@ -1,0 +1,38 @@
+
+
+# Core dependencies
+numpy
+pandas
+scikit-learn
+joblib
+
+# LLM API
+requests
+openai
+
+# Monitoring & Logs
+watchdog
+python-json-logger
+
+# Data visualization
+matplotlib
+seaborn
+plotly
+
+# PDF Generation
+reportlab
+PyPDF2
+matplotlib-inline
+
+# MITRE ATT&CK
+stix2
+taxii2-client
+
+# Utilities
+python-dateutil
+pytz
+tqdm
+
+# Jupyter
+jupyter
+ipykernel

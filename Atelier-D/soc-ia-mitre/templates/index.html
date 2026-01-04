@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>SOC IA - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        soc: {
+                            bg: '#0f172a',
+                            card: '#1e293b',
+                            accent: '#3b82f6',
+                            danger: '#ef4444',
+                            success: '#10b981',
+                            warning: '#f59e0b'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-soc-bg text-slate-200 min-h-screen font-sans">
+
+    <nav class="bg-soc-card border-b border-slate-700 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="text-2xl">🛡️</span>
+            <h1 class="text-xl font-bold tracking-wider text-white">SOC <span class="text-soc-accent">INTELLIGENCE</span></h1>
+        </div>
+        <div class="text-sm text-slate-400">
+            Dernière analyse : {{ last_update | datetimeformat }}
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4 py-8">
+        
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-soc-card p-6 rounded-lg border border-slate-700 shadow-lg">
+                <p class="text-slate-400 text-sm uppercase">Total Événements</p>
+                <p class="text-3xl font-bold text-white mt-2">{{ stats.total_events }}</p>
+            </div>
+            <div class="bg-soc-card p-6 rounded-lg border border-slate-700 shadow-lg">
+                <p class="text-slate-400 text-sm uppercase">Anomalies</p>
+                <p class="text-3xl font-bold text-soc-warning mt-2">{{ stats.anomalies_detected }}</p>
+            </div>
+            <div class="bg-soc-card p-6 rounded-lg border border-slate-700 shadow-lg">
+                <p class="text-slate-400 text-sm uppercase">Techniques MITRE</p>
+                <p class="text-3xl font-bold text-soc-danger mt-2">{{ stats.unique_techniques }}</p>
+            </div>
+            <div class="bg-soc-card p-6 rounded-lg border border-slate-700 shadow-lg">
+                <p class="text-slate-400 text-sm uppercase">Temps Moyen (s)</p>
+                <p class="text-3xl font-bold text-soc-accent mt-2">{{ "%.2f"|format(stats.avg_processing_time) }}</p>
+            </div>
+        </div>
+
+        {% if mitre_matrix %}
+        <div class="mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-white flex items-center gap-2">
+                <span>🗺️</span> Top Techniques Détectées
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {% for tech in mitre_matrix[:3] %}
+                <div class="bg-slate-800 p-4 rounded border-l-4 border-red-500">
+                    <div class="flex justify-between items-start">
+                        <span class="font-bold text-red-400">{{ tech.technique }}</span>
+                        <span class="bg-red-900 text-red-200 text-xs px-2 py-1 rounded">{{ tech.tactic }}</span>
+                    </div>
+                    <p class="text-sm text-slate-300 mt-1">{{ tech.name }}</p>
+                    <div class="mt-2 text-xs text-slate-500">Occurrences: {{ tech.occurrences }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="bg-soc-card rounded-lg border border-slate-700 overflow-hidden">
+            <div class="px-6 py-4 border-b border-slate-700">
+                <h2 class="text-lg font-semibold text-white">Journal des Alertes</h2>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="bg-slate-800 text-slate-400 uppercase">
+                        <tr>
+                            <th class="px-6 py-3">Timestamp</th>
+                            <th class="px-6 py-3">Source IP</th>
+                            <th class="px-6 py-3">Type</th>
+                            <th class="px-6 py-3">Score IA</th>
+                            <th class="px-6 py-3">MITRE</th>
+                            <th class="px-6 py-3">Menace</th>
+                            <th class="px-6 py-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        {% for item in events %}
+                        <tr class="hover:bg-slate-800/50 transition">
+                            <td class="px-6 py-4">{{ item.event.timestamp | datetimeformat }}</td>
+                            <td class="px-6 py-4 font-mono">{{ item.event.src_ip }}</td>
+                            <td class="px-6 py-4">
+                                <span class="px-2 py-1 rounded bg-slate-700 text-slate-200">{{ item.event.event_type }}</span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-col gap-1">
+                                    <div class="flex justify-between text-xs">
+                                        <span>Trust</span>
+                                        <span>{{ "%.2f"|format(item.trust_score) }}</span>
+                                    </div>
+                                    <div class="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
+                                        <div class="h-full {% if item.trust_score < 0.6 %}bg-red-500{% else %}bg-green-500{% endif %}" style="width: {{ item.trust_score * 100 }}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex flex-wrap gap-1">
+                                    {% for tech in item.mitre_techniques %}
+                                        <span class="text-xs px-2 py-0.5 rounded bg-slate-800 border border-slate-600 text-slate-300" title="{{ tech.technique_name }}">
+                                            {{ tech.technique_id }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-xs text-slate-600">-</span>
+                                    {% endfor %}
+                                </div>
+                            </td>
+                            <td class="px-6 py-4">
+                                {% set level = item.explanation.scores.threat_level %}
+                                <span class="px-3 py-1 rounded-full text-xs font-bold 
+                                    {{ 'bg-red-900/50 text-red-400 border border-red-800' if level == 'HIGH' else 
+                                       'bg-yellow-900/50 text-yellow-400 border border-yellow-800' if level == 'MEDIUM' else 
+                                       'bg-green-900/50 text-green-400 border border-green-800' }}">
+                                    {{ level }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <a href="/event/{{ item.event.id }}" class="text-soc-accent hover:text-blue-400 font-medium text-xs uppercase tracking-wide">
+                                    Analyser &rarr;
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

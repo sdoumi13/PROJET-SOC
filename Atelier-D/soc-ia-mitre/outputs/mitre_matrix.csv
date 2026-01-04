@@ -1,0 +1,7 @@
+technique,name,tactic,occurrences,avg_confidence
+T1071.001,Web Protocols,Command and Control,3,0.3333333333333333
+T1110,Brute Force,Credential Access,2,0.4
+T1110.001,Password Guessing,Credential Access,2,0.3333333333333333
+T1021.004,SSH,Lateral Movement,2,0.25
+T1046,Network Service Scanning,Discovery,1,0.2
+T1190,Exploit Public-Facing Application,Initial Access,1,0.125
